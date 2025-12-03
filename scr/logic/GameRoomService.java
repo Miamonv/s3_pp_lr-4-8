@@ -17,7 +17,7 @@ public class GameRoomService {
         this.catalog = repository.loadCatalog(); // завантажуємо каталог при старті
     }
 
-    // --- Управління кімнатою ---
+    // управління кімнатою
     public void createRoom(String name, double budget) {
         this.activeRoom = new GameRoom(name, budget);
     }
@@ -49,7 +49,6 @@ public class GameRoomService {
         }
     }
 
-    ////////!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     // за розміром (Small -> Large)
     public void sortRoomBySize() {
         if (activeRoom != null) {
@@ -98,9 +97,9 @@ public class GameRoomService {
         System.out.println("--- ЛЯЛЬКИ (Сортування за кольором волосся) ---");
 
         activeRoom.getToys().stream()
-                .filter(t -> t instanceof Doll) // Беремо тільки ляльок
-                .map(t -> (Doll) t)             // Перетворюємо на Doll, щоб бачити метод getHairColor
-                .sorted((d1, d2) -> d1.getHairColor().compareTo(d2.getHairColor())) // Сортуємо рядки (A-Z)
+                .filter(t -> t instanceof Doll) // тільки ляльки
+                .map(t -> (Doll) t)
+                .sorted((d1, d2) -> d1.getHairColor().compareTo(d2.getHairColor()))
                 .forEach(d -> System.out.println(d.getName() + " - Волосся: " + d.getHairColor()));
     }
 

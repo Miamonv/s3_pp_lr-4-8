@@ -5,7 +5,6 @@ import controller_menu.*;
 import logic.GameRoomService;
 import persistence.FileToyRepository;
 import persistence.ToyRepository;
-
 import java.util.Scanner;
 
 public class Main {
