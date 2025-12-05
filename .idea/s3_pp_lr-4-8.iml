@@ -30,7 +30,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../log4j-api-test-2.20.0.jar!/" />
+          <root url="jar://$MODULE_DIR$/../log4j-core-2.20.0.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -39,7 +39,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../log4j-core-2.20.0.jar!/" />
+          <root url="jar://$MODULE_DIR$/../log4j-api-2.20.0.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

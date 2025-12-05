@@ -2,12 +2,15 @@ package logic;
 
 import model.*;
 import persistence.ToyRepository;
-
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class GameRoomService {
+    private static final Logger logger = LogManager.getLogger(GameRoomService.class);
     private GameRoom activeRoom;
     private List<Toy> catalog;
     private ToyRepository repository;
@@ -20,6 +23,7 @@ public class GameRoomService {
     // управління кімнатою
     public void createRoom(String name, double budget) {
         this.activeRoom = new GameRoom(name, budget);
+        logger.info("Створено нову кімнату: '{}', Бюджет: {}", name, budget);
     }
 
     public GameRoom getActiveRoom() {
@@ -39,6 +43,7 @@ public class GameRoomService {
 
     public void addToyToRoom(Toy toy) {
         activeRoom.addToy(toy);
+        logger.info("Додано іграшку: {} (Ціна: {})", toy.getName(), toy.getPrice());
     }
 
     // сортування іграшок у кімнаті
@@ -46,6 +51,7 @@ public class GameRoomService {
     public void sortRoomByPrice() {
         if (activeRoom != null) {
             activeRoom.getToys().sort(Comparator.comparingDouble(Toy::getPrice));
+            logger.info("Кімнату відсортовано за ціною (зростання)");
         }
     }
 
@@ -53,6 +59,7 @@ public class GameRoomService {
     public void sortRoomBySize() {
         if (activeRoom != null) {
             activeRoom.getToys().sort(Comparator.comparing(Toy::getSize));
+            logger.info("Кімнату відсортовано за розміром (Small -> Large)");
         }
     }
 
@@ -60,6 +67,7 @@ public class GameRoomService {
     public void saveCurrentRoom(String filename) {
         if (activeRoom != null) {
             repository.saveRoom(activeRoom, filename);
+            logger.info("Кімнату збережено у файл: {}", filename);
         }
         System.out.println("Кімнату успішно збережено");
     }
@@ -68,6 +76,7 @@ public class GameRoomService {
         GameRoom loadedRoom = repository.loadRoom(filename);
         if (loadedRoom != null) {
             this.activeRoom = loadedRoom;
+            logger.info("Кімнату завантажено з файлу: {}", filename);
             return true;
         }
         return false;
@@ -79,6 +88,7 @@ public class GameRoomService {
             activeRoom.getToys().remove(index);
             // повертаємо гроші в бюджет
             activeRoom.decreaseSpent(toyToRemove.getPrice());
+            logger.info("Видалено іграшку: {}", toyToRemove.getName());
             return toyToRemove;
         }
         return null;
@@ -90,6 +100,7 @@ public class GameRoomService {
                 .map(t -> (model.Transport) t)
                 .sorted((t1, t2) -> Integer.compare(t2.getMaxSpeed(), t1.getMaxSpeed()))
                 .forEach(t -> System.out.println(t.getName() + " - " + t.getMaxSpeed() + " км/год"));
+        logger.info("Показано транспортні іграшки, відсортовані за швидкістю (спадання)");
     }
 
     public void showDollsByHairColor() {
@@ -102,6 +113,7 @@ public class GameRoomService {
                 .map(t -> (Doll) t)
                 .sorted((d1, d2) -> d1.getHairColor().compareTo(d2.getHairColor()))
                 .forEach(d -> System.out.println(d.getName() + " - Волосся: " + d.getHairColor()));
+        logger.info("Показано ляльок, відсортованих за кольором волосся (алфавіт)");
     }
 
     public void updateToyPrice(Toy toy, double newPrice) throws Exception {
@@ -114,10 +126,12 @@ public class GameRoomService {
 
         activeRoom.increaseSpent(difference);
         toy.setPrice(newPrice);
+        logger.info("Змінено ціну '{}': {} -> {}", toy.getName(), oldPrice, newPrice);
     }
 
     public List<Toy> findToysByRange(double minPrice, double maxPrice, int age) {
         if (activeRoom == null) return List.of();
+        logger.info("Пошук іграшок у кімнаті за ціною: {} - {} та віком: {}", minPrice, maxPrice, age);
 
         return activeRoom.getToys().stream()
                 .filter(t -> t.getPrice() >= minPrice && t.getPrice() <= maxPrice)
@@ -128,6 +142,7 @@ public class GameRoomService {
     public void showWholeCatalog() {
         if (catalog == null || catalog.isEmpty()) {
             System.out.println("Каталог порожній або файл не завантажено.");
+            logger.info("Спроба показати каталог, але він порожній або не завантажений");
             return;
         }
 
@@ -155,5 +170,6 @@ public class GameRoomService {
             }
         }
         System.out.println("\n========================================");
+        logger.info("Показано весь каталог магазину ({} позицій)", catalog.size());
     }
 }

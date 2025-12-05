@@ -8,7 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class FileToyRepository implements ToyRepository {
+    private static final Logger logger = LogManager.getLogger(FileToyRepository.class);
     private String catalogFilename;
 
     public FileToyRepository(String catalogFilename) {
@@ -21,6 +25,7 @@ public class FileToyRepository implements ToyRepository {
         File file = new File(catalogFilename);
 
         if (!file.exists()) {
+            logger.error("КРИТИЧНА ПОМИЛКА: Файл каталогу не знайдено: {}", catalogFilename);
             System.err.println("Файл каталогу не знайдено: " + catalogFilename);
             return toys;
         }
@@ -54,8 +59,10 @@ public class FileToyRepository implements ToyRepository {
                 writer.println(ToyMapper.toyToString(toy));
             }
             System.out.println("Кімнату успішно збережено у файл: " + filename);
+            logger.info("Кімнату успішно збережено у файл: {}", filename);
         } catch (IOException e) {
             System.err.println("Помилка запису у файл: " + e.getMessage());
+            logger.error("Помилка запису у файл: {}", e.getMessage());
         }
     }
 
@@ -91,9 +98,11 @@ public class FileToyRepository implements ToyRepository {
                     System.out.println("Помилка: " + line);
                 }
             }
+            logger.info("Кімнату завантажено з файлу: {}", filename);
             return room;
 
         } catch (Exception e) {
+            logger.error("Помилка читання кімнати з файлу: " + filename, e);
             System.out.println("Помилка завантаження кімнати: " + e.getMessage());
             return null;
         }

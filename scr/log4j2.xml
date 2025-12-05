@@ -10,19 +10,19 @@
         </File>
 
         <SMTP name="Mail" subject="CRITICAL ERROR: GameRoom"
-              to="admin@example.com"
-              from="app@example.com"
+              to="mariana.chaikovska.oi.2024@lpnu.ua"
+              from="chaikovska.marianka@gmail.com"
               smtpHost="smtp.gmail.com"
-              smtpPort="587"
-              smtpUsername="fake_email@gmail.com"
-              smtpPassword="fake_password"
+              smtpPort="465"
+              smtpProtocol="smtps"
+              smtpUsername="chaikovska.marianka@gmail.com"
+              smtpPassword="cnpzkfnnleedimlx"
               bufferSize="1">
         </SMTP>
     </Appenders>
 
     <Loggers>
         <Root level="info">
-            <AppenderRef ref="Console"/>
             <AppenderRef ref="MyFile"/>
         </Root>
 
