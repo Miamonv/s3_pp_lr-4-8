@@ -10,13 +10,13 @@
         </File>
 
         <SMTP name="Mail" subject="CRITICAL ERROR: GameRoom"
-              to="mariana.chaikovska.oi.2024@lpnu.ua"
-              from="chaikovska.marianka@gmail.com"
+              to="something@gmail.com"
+              from="something@gmail.com"
               smtpHost="smtp.gmail.com"
               smtpPort="465"
               smtpProtocol="smtps"
-              smtpUsername="chaikovska.marianka@gmail.com"
-              smtpPassword="cnpzkfnnleedimlx"
+              smtpUsername="something@gmail.com"
+              smtpPassword="fyhfvihhkjuvu"
               bufferSize="1">
         </SMTP>
     </Appenders>
